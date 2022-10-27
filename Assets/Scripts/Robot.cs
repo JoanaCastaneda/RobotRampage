@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Robot : MonoBehaviour
 {
+    public Animator robot;
+
     [SerializeField]
     private string robotType;
     public int health;
@@ -47,10 +49,12 @@ public class Robot : MonoBehaviour
             fire();
         }
     }
+  
+
     private void fire()
     {
-        Debug.Log("Fire");
+        robot.Play("Fire");
     }
     // Update is called once per frame
-   
+
 }
