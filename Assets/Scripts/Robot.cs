@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Robot : MonoBehaviour
 {
+    // sound
+    [SerializeField]
+    private AudioClip deathSound;
+    [SerializeField]
+    private AudioClip fireSound;
+    [SerializeField]
+    private AudioClip weakHitSound;
+    ///
+
     [SerializeField]
     GameObject missileprefab;
     public Animator robot;
@@ -58,6 +67,10 @@ public class Robot : MonoBehaviour
         missile.transform.position = missileFireSpot.transform.position;
         missile.transform.rotation = missileFireSpot.transform.rotation;
         robot.Play("Fire");
+
+        //sound
+        GetComponent<AudioSource>().PlayOneShot(fireSound);
+        //
     }
 
     // 1
@@ -68,12 +81,28 @@ public class Robot : MonoBehaviour
             return;
         }
         health -= amount;
+
+
         if (health <= 0)
         {
             isDead = true;
             robot.Play("Die");
             StartCoroutine("DestroyRobot");
+            GetComponent<AudioSource>().PlayOneShot(deathSound);
         }
+        else
+        {
+            GetComponent<AudioSource>().PlayOneShot(weakHitSound);
+        }
+
+        //estaba asi: antes de anadir sonido
+        /*
+        if (health <= 0)
+        {
+            isDead = true;
+            robot.Play("Die");
+            StartCoroutine("DestroyRobot");
+        }*/
     }
     // 2
     IEnumerator DestroyRobot()
